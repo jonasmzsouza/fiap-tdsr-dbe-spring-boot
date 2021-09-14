@@ -15,21 +15,19 @@ import lombok.extern.slf4j.Slf4j;
 @RestControllerAdvice
 @Slf4j
 public class ValidationControllerAdvice {
-		
+
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public List<ValidationFieldError> handle(MethodArgumentNotValidException e) {
 		log.info("um erro aconteceu");
 		List<ValidationFieldError> list = new ArrayList<>();
-		
+
 		List<FieldError> errors = e.getBindingResult().getFieldErrors();
-		
+
 		errors.forEach(error -> {
-			list.add(new ValidationFieldError(
-					error.getField(), 
-					error.getDefaultMessage()));
+			list.add(new ValidationFieldError(error.getField(), error.getDefaultMessage()));
 		});
-		
+
 		return list;
 	}
 

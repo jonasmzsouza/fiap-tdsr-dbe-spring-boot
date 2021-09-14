@@ -17,10 +17,10 @@ import br.com.fiap.epictask.repository.TaskRepository;
 
 @Controller
 public class TaskController {
-	
+
 	@Autowired
 	private TaskRepository repository;
-	
+
 	@GetMapping("/task")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("tasks");
@@ -28,18 +28,19 @@ public class TaskController {
 		modelAndView.addObject("tasks", tasks);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/task/new")
 	public String create(Task task) {
 		return "task-form";
 	}
-	
+
 	@PostMapping("/task")
 	public String save(@Valid Task task, BindingResult result) {
-		if(result.hasErrors()) return "task-form";
+		if (result.hasErrors())
+			return "task-form";
 		repository.save(task);
 		System.out.println("salvar tarefa... " + task);
 		return "tasks";
 	}
-	
+
 }

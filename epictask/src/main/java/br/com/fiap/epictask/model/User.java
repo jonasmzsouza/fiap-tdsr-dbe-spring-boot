@@ -20,7 +20,7 @@ public class User {
 
 	@NotBlank(message = "O nome é obrigatório")
 	private String name;
-	
+
 	@NotBlank(message = "O email é obrigatório")
 	@Email(message = "Informe um email válido")
 	private String email;

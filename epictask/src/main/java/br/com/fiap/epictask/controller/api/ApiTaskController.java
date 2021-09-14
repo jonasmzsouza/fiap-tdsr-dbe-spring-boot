@@ -29,72 +29,63 @@ import br.com.fiap.epictask.repository.TaskRepository;
 @RestController
 @RequestMapping("/api/task")
 public class ApiTaskController {
-	
+
 	@Autowired
 	private TaskRepository repository;
-	
+
 	@GetMapping
 	@Cacheable("tasks")
-	public Page<Task> index(
-			@RequestParam(required = false) String title,
-			@PageableDefault Pageable pageable
-			) {
+	public Page<Task> index(@RequestParam(required = false) String title, @PageableDefault Pageable pageable) {
 		if (title == null) {
-			return repository.findAll(pageable);			
+			return repository.findAll(pageable);
 		}
 		return repository.findByTitleContaining(title, pageable);
 	}
-	
+
 	@PostMapping
 	@CacheEvict(value = "tasks", allEntries = true)
 	public ResponseEntity<Task> create(@RequestBody @Valid Task task, UriComponentsBuilder uriBuilder) {
 		repository.save(task);
-		URI uri = uriBuilder
-				.path("/api/task/{id}")
-				.buildAndExpand(task.getId())
-				.toUri();
+		URI uri = uriBuilder.path("/api/task/{id}").buildAndExpand(task.getId()).toUri();
 		return ResponseEntity.created(uri).body(task);
 	}
-	
+
 	@GetMapping("{id}")
 	public ResponseEntity<Task> show(@PathVariable Long id) {
 		return ResponseEntity.of(repository.findById(id));
 	}
-	
+
 	@DeleteMapping("{id}")
 	@CacheEvict(value = "tasks", allEntries = true)
 	public ResponseEntity<Task> destroy(@PathVariable Long id) {
 		Optional<Task> task = repository.findById(id);
 		if (task.isEmpty())
 			return ResponseEntity.notFound().build();
-		
+
 		repository.deleteById(id);
 		return ResponseEntity.ok().build();
-		
+
 	}
-	
+
 	@PutMapping("{id}")
 	@CacheEvict(value = "tasks", allEntries = true)
-	public ResponseEntity<Task> update(
-			@PathVariable Long id,
-			@RequestBody Task newTask
-			
-			){
+	public ResponseEntity<Task> update(@PathVariable Long id, @RequestBody Task newTask
+
+	) {
 		Optional<Task> optional = repository.findById(id);
-		
+
 		if (optional.isEmpty())
 			return ResponseEntity.notFound().build();
-		
+
 		Task task = optional.get();
 		task.setTitle(newTask.getTitle());
 		task.setDescription(newTask.getDescription());
 		task.setPoints(newTask.getPoints());
-		
+
 		repository.save(task);
-		
+
 		return ResponseEntity.ok(task);
-		
+
 	}
-			
-	
+
 }

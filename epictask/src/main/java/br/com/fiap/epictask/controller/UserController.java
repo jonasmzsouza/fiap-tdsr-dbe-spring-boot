@@ -20,7 +20,7 @@ public class UserController {
 
 	@Autowired
 	private UserRepository repository;
-	
+
 	@GetMapping("/user")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView("users");
@@ -28,18 +28,19 @@ public class UserController {
 		modelAndView.addObject("users", users);
 		return modelAndView;
 	}
-	
+
 	@RequestMapping("/user/new")
 	public String create(User user) {
 		return "user-form";
 	}
-	
+
 	@PostMapping("/user")
 	public String save(@Valid User user, BindingResult result) {
-		if(result.hasErrors()) return "user-form";
+		if (result.hasErrors())
+			return "user-form";
 		repository.save(user);
 		System.out.println("salvar usuário..." + user);
 		return "users";
 	}
-	
+
 }
