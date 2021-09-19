@@ -18,14 +18,14 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "O nome é obrigatório")
+	@NotBlank(message = "{name.blank}")
 	private String name;
 
-	@NotBlank(message = "O email é obrigatório")
-	@Email(message = "Informe um email válido")
+	@NotBlank(message = "{email.blank}")
+	@Email(message = "{email.valid}")
 	private String email;
 
-	@Size(min = 8, message = "A senha deve ter ao menos 8 caracteres")
+	@Size(min = 8, message = "{password.size}")
 	private String password;
 
 }

@@ -19,14 +19,14 @@ public class Task {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "O título é obrigatório")
+	@NotBlank(message = "{title.blank}")
 	private String title;
 
-	@Size(min = 10, message = "A descrição deve ter pelo menos 10 caracteres")
+	@Size(min = 10, message = "{description.size}")
 	private String description;
 
-	@Min(value = 10, message = "A pontuação mínima é 10")
-	@Max(value = 500, message = "A pontuação máxima é 500")
+	@Min(value = 10, message = "{points.min}")
+	@Max(value = 500, message = "{points.max}")
 	private int points;
 
 }

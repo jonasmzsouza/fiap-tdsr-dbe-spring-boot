@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Usuarios</title>
-</head>
+<head th:include="_template :: head"></head>
 <body>
 
 	<h1>EPIC TASK</h1>
 	
-	<h2>Usuarios </h2>
+	<span class='card' th:if="${message != null}" th:text="${message}"></span>
 	
-	<a href="/user/new">Novo Usuario</a>
+	<h2 th:text="#{users}"></h2>
+	
+	<a href="/user/new" th:text="#{newuser}"></a>
 	
 	<ul th:each="user : ${users}">
 		<li>
